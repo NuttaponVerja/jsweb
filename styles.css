@@ -264,6 +264,8 @@ h2 { font-size: clamp(32px, 4.5vw, 50px); font-weight: 700; }
   width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
   background: var(--yellow); border: 3px solid var(--ink); font-family: var(--font-display); font-weight: 700;
 }
+.strip-portrait { grid-auto-columns: minmax(190px, 1fr); }
+.strip-portrait .photo img { aspect-ratio: 3 / 4; }
 .topics {
   max-width: 820px; margin: 40px auto 0; background: var(--paper);
   border: 3px solid var(--ink); border-radius: 26px; box-shadow: var(--shadow); padding: 28px 30px 22px;
@@ -362,6 +364,7 @@ h2 { font-size: clamp(32px, 4.5vw, 50px); font-weight: 700; }
   .marquee { font-size: 18px; }
   .topic-list { columns: 1; }
   .strip { grid-auto-columns: 78%; }
+  .strip-portrait { grid-auto-columns: 62%; }
   .topics { padding: 22px 20px 18px; }
 }
 @media (prefers-reduced-motion: reduce) {
