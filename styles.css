@@ -224,6 +224,50 @@ h2 { font-size: clamp(32px, 4.5vw, 50px); font-weight: 700; }
   background: var(--paper); border: 2px solid var(--ink); font-size: 12px; font-weight: 700;
 }
 
+
+/* ---------- study visit ---------- */
+.study {
+  max-width: none; background: var(--green-soft);
+  border-block: 3px solid var(--ink);
+  background-image: radial-gradient(color-mix(in srgb, var(--green) 55%, transparent) 1.4px, transparent 1.6px);
+  background-size: 22px 22px;
+}
+.study > * { max-width: 1180px; margin-inline: auto; }
+.study-intro { display: grid; grid-template-columns: 1.15fr 1fr; gap: 44px; align-items: center; }
+.photo {
+  background: var(--paper); border: 3px solid var(--ink); border-radius: 14px;
+  padding: 10px 10px 8px; box-shadow: var(--shadow); margin: 0;
+}
+.photo img { border-radius: 8px; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.photo figcaption, .photo span { display: block; font-family: var(--font-display); font-weight: 600; text-align: center; padding-top: 6px; font-size: 15px; }
+.photo-big { transform: rotate(-1.5deg); }
+.study-text p { margin: 0 0 14px; }
+.study-units { font-family: var(--font-display); font-weight: 700; font-size: 20px; }
+.strip-title { text-align: center; font-size: 30px; margin: 64px auto 4px; }
+.strip-hint { text-align: center; margin: 0 auto 18px; }
+.strip {
+  list-style: none; padding: 14px 6px 26px; margin: 0 auto;
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(230px, 1fr);
+  gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; counter-reset: step;
+}
+.strip .photo { position: relative; scroll-snap-align: start; counter-increment: step; transition: transform .25s cubic-bezier(.3, 1.6, .5, 1); }
+.strip .photo:nth-child(odd) { transform: rotate(-1.5deg); }
+.strip .photo:nth-child(even) { transform: rotate(1.5deg) translateY(10px); }
+.strip .photo:hover { transform: rotate(0) translateY(-6px) scale(1.03); }
+.strip .photo::before {
+  content: counter(step); position: absolute; top: -14px; left: -10px; z-index: 1;
+  width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--yellow); border: 3px solid var(--ink); font-family: var(--font-display); font-weight: 700;
+}
+.topics {
+  max-width: 820px; margin: 40px auto 0; background: var(--paper);
+  border: 3px solid var(--ink); border-radius: 26px; box-shadow: var(--shadow); padding: 28px 30px 22px;
+}
+.topics h3 { font-size: 26px; margin-bottom: 14px; }
+.topic-list { columns: 2; column-gap: 32px; }
+.topic-list li { break-inside: avoid; }
+.topics .note { margin: 6px 0 0; text-align: left; }
+
 /* ---------- fridge ---------- */
 .fridge {
   position: relative; height: 470px;
@@ -282,6 +326,7 @@ h2 { font-size: clamp(32px, 4.5vw, 50px); font-weight: 700; }
   .hero-art { max-width: 420px; margin: 0 auto; width: 100%; }
   .group-grid { grid-template-columns: 1fr; }
   .g-team { transform: none; }
+  .study-intro { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
   body { font-size: 16px; }
@@ -291,6 +336,9 @@ h2 { font-size: clamp(32px, 4.5vw, 50px); font-weight: 700; }
   .fridge::before { display: none; }
   .magnet { position: relative; left: auto; top: auto; width: 100%; cursor: default; }
   .marquee { font-size: 18px; }
+  .topic-list { columns: 1; }
+  .strip { grid-auto-columns: 78%; }
+  .topics { padding: 22px 20px 18px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }

@@ -16,7 +16,7 @@
 document.getElementById("year").textContent = new Date().getFullYear();
 
 // Reveal on scroll
-const revealables = document.querySelectorAll(".section-head, .card, .tile, .group, .visit-card");
+const revealables = document.querySelectorAll(".section-head, .card, .tile, .group, .visit-card, .study-intro, .topics");
 revealables.forEach((el) => el.classList.add("reveal"));
 const io = new IntersectionObserver((entries) => {
   entries.forEach((e) => {
