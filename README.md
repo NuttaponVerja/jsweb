@@ -1,2 +1,10 @@
-# jsweb
-First draft.  joonstudio
+# Joon Studio · Ceramic Workshop
+
+เว็บหน้าเดียวของ Joon Studio สตูดิโอปั้นดินและเวิร์คชอปเพ้นท์ นครปฐม
+
+- `index.html` เนื้อหาเว็บ
+- `styles.css` สไตล์ "ตู้เย็นติดแม็กเน็ต" ลายเส้นวาดมือ
+- `script.js` ป้ายเปิด/ปิดร้าน, แอนิเมชันตอนเลื่อน, ลากรูปผลงานได้
+- `images/` โลโก้และรูปผลงาน
+
+เปิดดูได้ทันทีโดยดับเบิลคลิก `index.html` หรือเปิด GitHub Pages

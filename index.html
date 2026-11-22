@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Joon Studio · Ceramic Workshop นครปฐม</title>
+  <meta name="description" content="Joon Studio สตูดิโอปั้นดินและเวิร์คชอปเพ้นท์ นครปฐม เหมาะกับครอบครัว เด็ก และทีมบริษัท คลาสปั้นมือ แป้นหมุน เพ้นท์เซรามิก เพ้นท์กระเป๋า ร้อยลูกปัด">
+  <link rel="icon" href="images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Anuphan:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- hand-drawn wobble filter, used by outlines -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="1" seed="3"/>
+      <feDisplacementMap in="SourceGraphic" scale="3"/>
+    </filter>
+  </svg>
+
+  <header class="nav">
+    <a href="#top" class="nav-logo" aria-label="Joon Studio หน้าแรก">
+      <span class="nav-blob">JOON</span><span class="nav-sub">studio</span>
+    </a>
+    <nav class="nav-links" aria-label="เมนูหลัก">
+      <a href="#classes">คลาสปั้น</a>
+      <a href="#walkin">เวิร์คชอป</a>
+      <a href="#groups">ครอบครัว & ทีม</a>
+      <a href="#fridge">ผลงาน</a>
+      <a href="#visit">เวลาเปิด</a>
+    </nav>
+    <a class="btn btn-small" href="https://line.me/R/ti/p/@joonstudio" target="_blank" rel="noopener">จองผ่าน LINE</a>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-text">
+        <p class="open-badge" id="openBadge">Joon Studio · นครปฐม</p>
+        <h1>มาเลอะดิน<br><span class="nowrap"><span class="squiggle">เล่นสี</span> กันเถอะ!</span></h1>
+        <p class="lead">สตูดิโอปั้นดินและเพ้นท์เซรามิกที่ใครก็มาได้ จะเป็นพ่อแม่ลูก มาเดี่ยว มาคู่ หรือยกทีมบริษัทมาทั้งแก๊ง ไม่ต้องมีพื้นฐาน มีแค่มือกับความสนุกก็พอ</p>
+        <div class="hero-cta">
+          <a class="btn" href="#classes">ดูคลาสปั้น</a>
+          <a class="btn btn-ghost" href="#walkin">มาเพ้นท์ได้เลย ไม่ต้องจอง</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <img class="hero-logo" src="images/logo.png" alt="โลโก้ Joon Studio Ceramic Workshop ล้อมรอบด้วยลายเส้นอุปกรณ์ปั้นดิน ถ้วย แมว และนก" width="904" height="904">
+        <span class="sticker s-orange">Hand<br>made!</span>
+        <span class="sticker s-blue">ทุกวัย<br>All ages</span>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>ปั้นดิน ✦ Pottery ✦ เพ้นท์เซรามิก ✦ Tote Bag ✦ ร้อยลูกปัด ✦ แม็กเน็ตติดตู้เย็น ✦ Canvas ✦ ดูดวงวันเสาร์ ✦ </span>
+        <span>ปั้นดิน ✦ Pottery ✦ เพ้นท์เซรามิก ✦ Tote Bag ✦ ร้อยลูกปัด ✦ แม็กเน็ตติดตู้เย็น ✦ Canvas ✦ ดูดวงวันเสาร์ ✦ </span>
+      </div>
+    </div>
+
+    <!-- POTTERY CLASSES -->
+    <section id="classes" class="section">
+      <div class="section-head">
+        <p class="eyebrow">Pottery Class</p>
+        <h2>คลาสปั้นดิน</h2>
+        <p class="note">จองล่วงหน้าอย่างน้อย 1 วัน · Reservation required at least 1 day in advance</p>
+      </div>
+
+      <div class="class-grid">
+        <article class="card card-clay tilt-l">
+          <div class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><path d="M18 50c-6-10-4-22 6-26 2-1 2-6 0-8h16c-2 2-2 7 0 8 10 4 12 16 6 26z"/><path d="M24 36c3 2 13 2 16 0"/></svg>
+          </div>
+          <h3>คลาสปั้นมือ</h3>
+          <p class="en">Hand-building</p>
+          <p>ขึ้นรูปด้วยมือ บีบ ม้วน แปะ จะปั้นแก้ว จาน หรือน้องแมวก็ได้ เหมาะกับเด็ก ๆ และมือใหม่</p>
+          <p class="price"><strong>890</strong> บาท / คน</p>
+        </article>
+
+        <article class="card card-blue tilt-r">
+          <div class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><ellipse cx="32" cy="48" rx="24" ry="7"/><path d="M20 46c-2-10 2-20 12-20s14 10 12 20"/><path d="M26 26c0-6 12-6 12 0"/></svg>
+          </div>
+          <h3>แป้นหมุน + เผาไฟฟ้า</h3>
+          <p class="en">Wheel-throwing + Electric Kiln Firing</p>
+          <p>ลองขึ้นรูปบนแป้นหมุนแบบมืออาชีพ แล้วเราเผาให้จนเป็นเซรามิกพร้อมใช้งานจริง</p>
+          <p class="price"><strong>1,090</strong> บาท / คน</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- WALK-IN -->
+    <section id="walkin" class="section section-dots">
+      <div class="section-head">
+        <p class="eyebrow">Walk-in Workshops</p>
+        <h2>เดินเข้ามาเพ้นท์ได้เลย!</h2>
+        <p class="note">ไม่ต้องจอง มีเครื่องดื่มและของทานเล่นระหว่างนั่งเพ้นท์ · No booking needed</p>
+      </div>
+
+      <ul class="tiles">
+        <li class="tile t-yellow">
+          <span class="tile-emoji" aria-hidden="true">🫖</span>
+          <h3>เพ้นท์เซรามิก</h3>
+          <p class="en">Ceramic Painting</p>
+          <p>แก้ว จาน แจกัน แม็กเน็ต เลือกชิ้นที่ชอบแล้วระบายเลย <em>รอรับงาน 2–3 สัปดาห์</em></p>
+        </li>
+        <li class="tile t-pink">
+          <span class="tile-emoji" aria-hidden="true">👜</span>
+          <h3>เพ้นท์กระเป๋า</h3>
+          <p class="en">Tote Bag Painting</p>
+          <p>ถุงผ้าลายเดียวในโลก วาดเสร็จสะพายกลับบ้านได้เลย</p>
+        </li>
+        <li class="tile t-blue">
+          <span class="tile-emoji" aria-hidden="true">🖼️</span>
+          <h3>เพ้นท์เฟรม & อะคริลิก</h3>
+          <p class="en">Canvas & Acrylic Painting</p>
+          <p>ระบายสีบนเฟรมผ้าใบ ไว้แขวนผนังห้องให้สดใส</p>
+        </li>
+        <li class="tile t-green">
+          <span class="tile-emoji" aria-hidden="true">📿</span>
+          <h3>ร้อยลูกปัดสุดคิ้วต์</h3>
+          <p class="en">Bead Craft</p>
+          <p>ทำสร้อยข้อมือ พวงกุญแจ ใส่เองให้เพื่อน หรือใส่คู่กับลูก</p>
+        </li>
+        <li class="tile t-orange tile-wide">
+          <span class="tile-emoji" aria-hidden="true">🐶</span>
+          <h3>แม็กเน็ตเซรามิก (ฮิตมาก!)</h3>
+          <p class="en">Ceramic Magnets</p>
+          <p>เพ้นท์น้องหมา น้องแมว ปลาปักเป้า วาฬ ตามใจชอบ เพ้นท์เสร็จเราติดแม็กเน็ตให้เลย เอาไปติดตู้เย็น ติดล็อคเกอร์ น่ารักมากกก</p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- GROUPS -->
+    <section id="groups" class="section">
+      <div class="section-head">
+        <p class="eyebrow">Who's coming?</p>
+        <h2>มากับใครก็สนุก</h2>
+      </div>
+
+      <div class="group-grid">
+        <article class="group g-family">
+          <h3>👨‍👩‍👧 ครอบครัว & เด็ก ๆ</h3>
+          <p>วันหยุดนี้พาลูกมาจับดินแทนจอ ได้ใช้มือ ได้เลอะ ได้ของฝีมือตัวเองกลับบ้าน ส่วนพ่อแม่ก็นั่งจิบเครื่องดื่มหรือมาปั้นด้วยกันก็ได้</p>
+          <ul class="checks">
+            <li>เหมาะกับทุกวัย ไม่ต้องมีพื้นฐาน</li>
+            <li>มีพี่ ๆ ช่วยสอนทุกขั้นตอน</li>
+            <li>มีเครื่องดื่มและของว่าง</li>
+          </ul>
+        </article>
+
+        <article class="group g-team">
+          <h3>🏢 Team Building บริษัท</h3>
+          <p>อยากให้ทีมได้พักจากงาน ลองปั้นดินด้วยกันดูไหม ได้หัวเราะ ได้ช่วยกัน และได้ผลงานเป็นที่ระลึกของทีม</p>
+          <ul class="checks">
+            <li>จัดกิจกรรมสำหรับกลุ่มได้</li>
+            <li>เลือกได้ทั้งปั้นดินและเพ้นท์</li>
+            <li>ทักแชทเพื่อสอบถามราคากลุ่ม</li>
+          </ul>
+          <a class="btn btn-small" href="https://line.me/R/ti/p/@joonstudio" target="_blank" rel="noopener">ขอใบเสนอราคา</a>
+        </article>
+
+        <article class="group g-gang">
+          <h3>💞 มาเดี่ยว มาคู่ ยกแก๊ง</h3>
+          <p>เดทสายคราฟต์ วันเกิดเพื่อน หรืออยากหาอะไรทำคนเดียวเงียบ ๆ ที่นี่ก็ต้อนรับ</p>
+          <ul class="checks">
+            <li>🔮 บูทดูดวงทุกวันเสาร์ 14:00–17:00</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- FRIDGE GALLERY -->
+    <section id="fridge" class="section">
+      <div class="section-head">
+        <p class="eyebrow">From our fridge</p>
+        <h2>ผลงานจากมือลูกค้า</h2>
+        <p class="note">ลองลากรูปเล่นได้นะ เหมือนแม็กเน็ตบนตู้เย็นเลย ✋</p>
+      </div>
+
+      <div class="fridge" id="fridgeBoard">
+        <figure class="magnet" style="--x:4%;--y:6%;--r:-5deg">
+          <img src="images/magnets-cat-fish-corgi.jpg" alt="แม็กเน็ตเซรามิกเพ้นท์ลายแมว ปลาปักเป้าสีเหลือง และคอร์กี้" loading="lazy" draggable="false">
+          <figcaption>แมว ปลาปักเป้า คอร์กี้</figcaption>
+        </figure>
+        <figure class="magnet" style="--x:28%;--y:14%;--r:4deg">
+          <img src="images/magnets-dog-octopus.jpg" alt="แม็กเน็ตเซรามิกรูปเฟรนช์บูลด็อกสีส้มและปลาหมึกสีส้มแดง" loading="lazy" draggable="false">
+          <figcaption>เฟรนชี่ & ปลาหมึก</figcaption>
+        </figure>
+        <figure class="magnet" style="--x:52%;--y:4%;--r:-3deg">
+          <img src="images/magnets-cats-house.jpg" alt="แม็กเน็ตเซรามิกรูปแมวสองตัวและบ้านหลังเล็กลายดอกไม้" loading="lazy" draggable="false">
+          <figcaption>แมวจุด & บ้านดอกไม้</figcaption>
+        </figure>
+        <figure class="magnet" style="--x:75%;--y:12%;--r:6deg">
+          <img src="images/magnets-whale-cat.jpg" alt="วาฬสีน้ำเงินกับแมวส้มบนพื้นฟ้า งานเพ้นท์เซรามิก" loading="lazy" draggable="false">
+          <figcaption>วาฬ & แมวส้ม</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- VISIT -->
+    <section id="visit" class="section visit">
+      <div class="visit-card">
+        <p class="eyebrow">Come say hi</p>
+        <h2>แวะมาหากันนะ</h2>
+        <div class="hours">
+          <div>
+            <p class="big">พฤหัส – จันทร์</p>
+            <p>Thursday – Monday</p>
+            <p class="big">09:00 – 17:00</p>
+          </div>
+          <div class="closed">
+            <p class="big">หยุด อังคาร – พุธ</p>
+            <p>Closed Tuesday – Wednesday</p>
+          </div>
+        </div>
+        <p class="where">📍 นครปฐม</p>
+        <div class="contact">
+          <a class="btn" href="https://line.me/R/ti/p/@joonstudio" target="_blank" rel="noopener">LINE @joonstudio</a>
+          <a class="btn btn-ghost" href="tel:0946199596">094-619-9596</a>
+          <a class="btn btn-ghost" href="tel:0991429461">099-142-9461</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> Joon Studio · Ceramic Workshop · ทำด้วยมือ ด้วยใจ 🤎</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
