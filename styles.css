@@ -311,6 +311,19 @@ h2 { font-size: clamp(32px, 4.5vw, 50px); font-weight: 700; }
 .where { font-family: var(--font-display); font-weight: 600; font-size: 20px; }
 .contact { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 18px; }
 
+.socials { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 22px; }
+.social {
+  display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+  font-family: var(--font-display); font-weight: 700;
+  background: var(--paper); border: 3px solid var(--ink); border-radius: 16px;
+  padding: 8px 18px 8px 10px; box-shadow: 4px 4px 0 var(--ink);
+  transition: transform .15s, box-shadow .15s;
+}
+.social:hover { transform: translate(-2px, -3px) rotate(1.5deg); box-shadow: 6px 7px 0 var(--ink); }
+.social svg { width: 34px; height: 34px; padding: 5px; border-radius: 50%; border: 2.5px solid var(--ink); fill: currentColor; }
+.s-fb svg { background: var(--sky); }
+.s-ig svg { background: var(--pink); }
+.footer-links a { font-weight: 700; text-decoration-color: var(--orange); text-decoration-thickness: 2px; text-underline-offset: 4px; }
 .footer { text-align: center; padding: 40px 16px 50px; font-family: var(--font-display); color: var(--ink-soft); }
 
 /* ---------- reveal ---------- */
