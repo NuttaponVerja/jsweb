@@ -103,6 +103,11 @@ h1 { font-size: clamp(44px, 7vw, 80px); font-weight: 700; }
   text-decoration-thickness: 4px; text-underline-offset: 10px;
 }
 .lead { font-size: 19px; color: var(--ink-soft); max-width: 34em; margin: 22px 0 28px; }
+.tagline {
+  font-family: var(--font-display); font-weight: 700; font-size: 17px; letter-spacing: .5px;
+  color: var(--clay); margin: -12px 0 26px;
+}
+.social small { font-family: var(--font-body); font-weight: 500; color: var(--ink-soft); }
 .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; }
 
 .hero-art { position: relative; }
