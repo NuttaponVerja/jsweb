@@ -25,31 +25,36 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.15 });
 revealables.forEach((el) => io.observe(el));
 
-// Draggable fridge magnets (desktop / wide screens)
+// Draggable fridge magnets (mouse + touch)
 const board = document.getElementById("fridgeBoard");
 let zTop = 10;
 board.querySelectorAll(".magnet").forEach((m) => {
   m.addEventListener("pointerdown", (e) => {
-    if (window.matchMedia("(max-width: 640px)").matches) return;
-    const b = board.getBoundingClientRect();
-    const startX = e.clientX - m.offsetLeft;
-    const startY = e.clientY - m.offsetTop;
+    if (e.button !== 0) return;
+    e.preventDefault();
+    const maxX = board.clientWidth - m.offsetWidth;
+    const maxY = board.clientHeight - m.offsetHeight;
+    const offX = e.clientX - m.offsetLeft;
+    const offY = e.clientY - m.offsetTop;
+    let x = m.offsetLeft, y = m.offsetTop, frame = 0;
     m.setPointerCapture(e.pointerId);
     m.classList.add("dragging");
     m.style.zIndex = ++zTop;
+    const paint = () => { frame = 0; m.style.left = x + "px"; m.style.top = y + "px"; };
     const move = (ev) => {
-      const x = Math.max(0, Math.min(ev.clientX - startX, b.width - m.offsetWidth));
-      const y = Math.max(0, Math.min(ev.clientY - startY, b.height - m.offsetHeight));
-      m.style.left = x + "px";
-      m.style.top = y + "px";
+      x = Math.max(0, Math.min(ev.clientX - offX, maxX));
+      y = Math.max(0, Math.min(ev.clientY - offY, maxY));
+      if (!frame) frame = requestAnimationFrame(paint);
     };
-    const up = () => {
+    const end = () => {
       m.classList.remove("dragging");
       m.style.setProperty("--r", (Math.random() * 10 - 5).toFixed(1) + "deg");
       m.removeEventListener("pointermove", move);
-      m.removeEventListener("pointerup", up);
+      m.removeEventListener("pointerup", end);
+      m.removeEventListener("pointercancel", end);
     };
     m.addEventListener("pointermove", move);
-    m.addEventListener("pointerup", up);
+    m.addEventListener("pointerup", end);
+    m.addEventListener("pointercancel", end);
   });
 });
