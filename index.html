@@ -27,6 +27,7 @@
     </a>
     <nav class="nav-links" aria-label="เมนูหลัก">
       <a href="#classes">คลาสปั้น</a>
+      <a href="#game">เกมแป้นหมุน</a>
       <a href="#walkin">เวิร์คชอป</a>
       <a href="#groups">ครอบครัว & ทีม</a>
       <a href="#studyvisit">ศึกษาดูงาน</a>
@@ -114,6 +115,45 @@
         <li class="photo"><img src="images/class-5-proud.jpg" alt="ลูกค้ากับครูยิ้มโชว์แก้วที่ปั้นเสร็จ" width="700" height="933" loading="lazy"><span>ภูมิใจสุด ๆ</span></li>
         <li class="photo"><img src="images/class-6-done.jpg" alt="ลูกค้าถือแก้วโบว์ที่ปั้นเสร็จคู่กับครู" width="700" height="933" loading="lazy"><span>ได้แก้วโบว์ใบแรก! 🎀</span></li>
       </ol>
+    </section>
+
+    <!-- WHEEL GAME -->
+    <section id="game" class="section game">
+      <div class="section-head">
+        <p class="eyebrow">Mini game</p>
+        <h2>ลองปั้นบนแป้นหมุน (ฉบับดิจิทัล)</h2>
+        <p class="note">กดค้างที่ขอบดินแล้วลากเข้าเพื่อบีบให้คอด ลากออกเพื่อให้บาน ใช้ปุ่มดึงดินขึ้น-กดลง เลือกสีเคลือบ แล้วเข้าเตาเผาเลย!</p>
+      </div>
+
+      <div class="game-box">
+        <div class="game-canvas-wrap">
+          <canvas id="wheelCanvas" role="img" aria-label="แป้นหมุนปั้นดินแบบโต้ตอบ กดค้างและลากเพื่อขึ้นรูปดิน"></canvas>
+        </div>
+        <p class="game-status" id="wheelStatus" aria-live="polite"></p>
+
+        <div class="game-controls">
+          <button class="btn btn-small btn-ghost" id="wheelSpin" type="button">⏸ หยุดแป้น</button>
+          <button class="btn btn-small btn-ghost" id="wheelUp" type="button">⬆ ดึงดินขึ้น</button>
+          <button class="btn btn-small btn-ghost" id="wheelDown" type="button">⬇ กดดินลง</button>
+          <button class="btn btn-small btn-ghost" id="wheelReset" type="button">↺ เริ่มใหม่</button>
+        </div>
+
+        <div class="glazes" role="group" aria-label="เลือกสีเคลือบ">
+          <span class="glaze-label">สีเคลือบ:</span>
+          <button type="button" class="glaze" data-glaze="cream" style="--g:#f4ecdc" aria-pressed="false" aria-label="ขาวนวล"></button>
+          <button type="button" class="glaze" data-glaze="sky" style="--g:#6ea5dc" aria-pressed="true" aria-label="ฟ้าน้ำทะเล"></button>
+          <button type="button" class="glaze" data-glaze="pink" style="--g:#f0a0aa" aria-pressed="false" aria-label="ชมพูพีช"></button>
+          <button type="button" class="glaze" data-glaze="sage" style="--g:#96be8c" aria-pressed="false" aria-label="เขียวเซจ"></button>
+          <button type="button" class="glaze" data-glaze="sun" style="--g:#f0c346" aria-pressed="false" aria-label="เหลืองมัสตาร์ด"></button>
+          <button type="button" class="glaze" data-glaze="cocoa" style="--g:#78503c" aria-pressed="false" aria-label="น้ำตาลโกโก้"></button>
+        </div>
+
+        <div class="game-controls">
+          <button class="btn" id="wheelFire" type="button">🔥 เข้าเตาเผา</button>
+          <button class="btn btn-ghost" id="wheelSave" type="button" hidden>💾 บันทึกรูปผลงาน</button>
+        </div>
+        <p class="game-cta">ปั้นในจอยังสนุกขนาดนี้ ลองมือเปื้อนดินของจริงดูไหม? <a href="https://line.me/R/ti/p/@joonstudio" target="_blank" rel="noopener">จองคลาสแป้นหมุนทาง LINE →</a></p>
+      </div>
     </section>
 
     <!-- WALK-IN -->
@@ -334,5 +374,6 @@
   </footer>
 
   <script src="script.js"></script>
+  <script src="game.js"></script>
 </body>
 </html>
