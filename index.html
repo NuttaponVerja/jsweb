@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Anuphan:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20261123">
 </head>
 <body>
 
@@ -122,7 +122,7 @@
       <div class="section-head">
         <p class="eyebrow">Mini game</p>
         <h2>ลองปั้นบนแป้นหมุน (ฉบับดิจิทัล)</h2>
-        <p class="note">กดค้างที่ขอบดินแล้วลากเข้าเพื่อบีบให้คอด ลากออกเพื่อให้บาน ใช้ปุ่มดึงดินขึ้น-กดลง เลือกสีเคลือบ แล้วเข้าเตาเผาเลย!</p>
+        <p class="note">กดค้างที่ขอบดินแล้วลากเข้าเพื่อบีบให้คอด ลากออกเพื่อให้บาน ดึงดินขึ้น-กดลง ติดหูจับ หน้าแมว เลือกลายและสีเคลือบ แล้วเข้าเตาเผาเลย! อยากท้าทายกด 🎲 สุ่มโจทย์</p>
       </div>
 
       <div class="game-box">
@@ -136,6 +136,20 @@
           <button class="btn btn-small btn-ghost" id="wheelUp" type="button">⬆ ดึงดินขึ้น</button>
           <button class="btn btn-small btn-ghost" id="wheelDown" type="button">⬇ กดดินลง</button>
           <button class="btn btn-small btn-ghost" id="wheelReset" type="button">↺ เริ่มใหม่</button>
+          <button class="btn btn-small" id="wheelQuest" type="button">🎲 สุ่มโจทย์</button>
+        </div>
+
+        <div class="deco-row" role="group" aria-label="ตกแต่งตัวปั้น">
+          <span class="glaze-label">ตกแต่ง:</span>
+          <button type="button" class="chip" data-deco="handle" aria-pressed="false">☕ หูจับ</button>
+          <button type="button" class="chip" data-deco="cat" aria-pressed="false">🐱 หน้าแมว</button>
+        </div>
+        <div class="deco-row" role="group" aria-label="เลือกลาย">
+          <span class="glaze-label">ลาย:</span>
+          <button type="button" class="chip" data-pattern="none" aria-pressed="true">เรียบ ๆ</button>
+          <button type="button" class="chip" data-pattern="dots" aria-pressed="false">⚪ ลายจุด</button>
+          <button type="button" class="chip" data-pattern="wave" aria-pressed="false">〰️ ลายคลื่น</button>
+          <button type="button" class="chip" data-pattern="stripes" aria-pressed="false">▤ ลายทาง</button>
         </div>
 
         <div class="glazes" role="group" aria-label="เลือกสีเคลือบ">
@@ -373,7 +387,7 @@
     <p>© <span id="year"></span> Joon Studio · We are ceramics &amp; craft studio · We serve happiness for you 🤎</p>
   </footer>
 
-  <script src="script.js"></script>
-  <script src="game.js"></script>
+  <script src="script.js?v=20261123"></script>
+  <script src="game.js?v=20261123"></script>
 </body>
 </html>

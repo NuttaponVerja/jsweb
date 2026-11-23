@@ -204,7 +204,17 @@ h2 { font-size: clamp(32px, 4.5vw, 50px); font-weight: 700; }
 .game-controls button:disabled { opacity: .5; cursor: default; transform: none; }
 .glazes { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; margin: 14px 0; }
 .glaze-label { font-family: var(--font-display); font-weight: 700; }
+button { -webkit-appearance: none; appearance: none; font: inherit; color: inherit; }
+.deco-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; margin: 10px 0; }
+.chip {
+  cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: 15px;
+  background: var(--paper); border: 2.5px solid var(--ink); border-radius: 999px;
+  padding: 5px 14px; box-shadow: 2px 3px 0 var(--ink); transition: transform .15s, background .15s;
+}
+.chip:hover { transform: translateY(-2px); }
+.chip[aria-pressed="true"] { background: var(--yellow); transform: rotate(-2deg); }
 .glaze {
+  padding: 0;
   width: 38px; height: 38px; border-radius: 50%; cursor: pointer;
   background: var(--g); border: 3px solid var(--ink); box-shadow: 2px 3px 0 var(--ink);
   transition: transform .15s;
@@ -454,6 +464,7 @@ h2 { font-size: clamp(32px, 4.5vw, 50px); font-weight: 700; }
   .kids .kids-sm { padding: 6px; }
   .round-chips li { font-size: 16px; }
   .glaze-label { flex-basis: 100%; }
+  .chip { font-size: 14px; padding: 4px 11px; }
   .glaze { width: 34px; height: 34px; }
   .glazes { gap: 8px; }
   .topics { padding: 22px 20px 18px; }
