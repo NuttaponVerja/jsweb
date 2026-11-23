@@ -5,7 +5,6 @@
   const ctx = canvas.getContext("2d");
   const $ = (id) => document.getElementById(id);
   const statusEl = $("wheelStatus");
-  const questEl = $("wheelQuest");
   const spinBtn = $("wheelSpin");
   const fireBtn = $("wheelFire");
   const saveBtn = $("wheelSave");
@@ -22,7 +21,6 @@
     cocoa: { name: "น้ำตาลโกโก้", rgb: [120, 80, 60] },
   };
   const PATTERNS = { none: "", dots: "ลายจุด", wave: "ลายคลื่น", stripes: "ลายทาง" };
-  const QUESTS = ["จาน", "ชาม", "แก้ว", "แจกัน", "โถ"];
   // fixed polka-dot positions on the pot surface: angle + height fraction
   const DOTS = Array.from({ length: 30 }, (_, i) => ({ a: i * 2.399, t: 0.12 + ((i * 0.618) % 1) * 0.78 }));
 
@@ -30,7 +28,7 @@
   let r = [], H = 0, theta = 0, spinning = true, speed = 0;
   let pointer = null, glaze = "sky", state = "wet"; // wet | firing | fired
   let fireT = 0, color = CLAY.slice(), visible = true, last = 0, running = false;
-  let deco = { handle: false, cat: false, pattern: "none" }, quest = null;
+  let deco = { handle: false, cat: false, pattern: "none" };
 
   function reset() {
     H = 110;
@@ -319,11 +317,7 @@
 
   function finishFiring() {
     state = "fired";
-    let msg = `เผาเสร็จแล้ว! ได้${fullName()} สี${GLAZES[glaze].name} ชิ้นเดียวในโลก 🎉`;
-    if (quest) {
-      msg += potName() === quest ? ` ⭐ ภารกิจปั้น${quest}สำเร็จ!` : ` (โจทย์คือ${quest} เกือบแล้ว ลองใหม่นะ!)`;
-    }
-    say(msg);
+    say(`เผาเสร็จแล้ว! ได้${fullName()} สี${GLAZES[glaze].name} ชิ้นเดียวในโลก 🎉`);
     saveBtn.hidden = false;
   }
 
@@ -358,11 +352,6 @@
     const k = b.dataset.deco; deco[k] = !deco[k]; b.setAttribute("aria-pressed", deco[k]);
     if (deco[k]) say(k === "cat" ? "เมี้ยว~ ติดหูแมวกับหน้าแมวแล้ว 🐱" : "ติดหูจับแล้ว ดูมันหมุนรอบแป้นสิ ☕");
   }));
-  $("wheelQuest").addEventListener("click", () => {
-    let q; do { q = QUESTS[(Math.random() * QUESTS.length) | 0]; } while (q === quest);
-    quest = q; questEl.textContent = `🎲 โจทย์: ปั้น${quest}`;
-    say(`โจทย์มาแล้ว! ลองปั้น${quest}ให้ได้ แล้วเข้าเตาเผาดูว่าผ่านไหม`);
-  });
 
   fireBtn.addEventListener("click", () => {
     if (state !== "wet") return;
