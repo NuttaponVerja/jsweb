@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ห้องเรียนค่าเงิน</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1c2230;--muted:#667085;--line:#e4e7ec;--up:#12805c;--down:#c4320a;--accent:#2f5bea;--soft:#eef2ff}
+@media (prefers-color-scheme:dark){:root{--bg:#11141a;--card:#1a1f29;--ink:#e8ebf1;--muted:#98a2b3;--line:#2b3240;--up:#3ccf91;--down:#ff7a59;--accent:#7b9bff;--soft:#222a3d}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Sarabun,system-ui,sans-serif;line-height:1.6}
+.wrap{max-width:1100px;margin:0 auto;padding:16px}
+h1{font-size:1.6rem;margin:.2em 0}
+h2{font-size:1.2rem;margin:0 0 .6em}
+.sub{color:var(--muted);margin:0 0 1em}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.cur{cursor:pointer;border:2px solid var(--line);border-radius:12px;padding:12px;background:var(--card)}
+.cur.sel{border-color:var(--accent);background:var(--soft)}
+.cur .code{font-weight:700;font-size:1.05rem}
+.cur .rate{font-size:1.5rem;font-weight:700}
+.small{font-size:.85rem;color:var(--muted)}
+.up{color:var(--up)}.down{color:var(--down)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+button.seg{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:6px 12px;border-radius:8px;cursor:pointer;font:inherit}
+button.seg.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.chartbox{position:relative;height:340px}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th,td{padding:8px;border-bottom:1px solid var(--line);text-align:right}
+th:first-child,td:first-child{text-align:left}
+input,select{font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+label{display:flex;flex-direction:column;gap:4px;font-size:.9rem}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:12px}
+.result{background:var(--soft);border-radius:10px;padding:12px}
+.banner{background:#fff4e5;color:#7a4b00;border-radius:10px;padding:10px 12px;margin-bottom:16px;display:none}
+@media (prefers-color-scheme:dark){.banner{background:#3a2a10;color:#ffd699}}
+details{border-bottom:1px solid var(--line);padding:8px 0}
+summary{cursor:pointer;font-weight:600}
+.tw{overflow-x:auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>💱 ห้องเรียนค่าเงิน 5 สกุลหลัก</h1>
+  <p class="sub">ดูการขึ้นลงของ USD · EUR · JPY · GBP · CNY เทียบเงินบาท (ข้อมูลอ้างอิงธนาคารกลางยุโรป ECB ผ่าน Frankfurter API) · <span id="asof"></span></p>
+  <div class="banner" id="banner">⚠️ ดึงข้อมูลจริงไม่ได้ (อาจไม่มีอินเทอร์เน็ต) ตอนนี้แสดง <b>ข้อมูลจำลอง</b> เพื่อฝึกใช้งานเท่านั้น</div>
+
+  <div class="card">
+    <div class="row">
+      <span>ช่วงเวลา:</span>
+      <button class="seg" data-m="1">1 เดือน</button>
+      <button class="seg on" data-m="3">3 เดือน</button>
+      <button class="seg" data-m="6">6 เดือน</button>
+      <button class="seg" data-m="12">1 ปี</button>
+      <button class="seg" data-m="36">3 ปี</button>
+    </div>
+    <div class="grid" id="cards"></div>
+  </div>
+
+  <div class="card">
+    <h2 id="chartTitle">กราฟ</h2>
+    <div class="row">
+      <label style="flex-direction:row;align-items:center"><input type="checkbox" id="showMA" checked> เส้นค่าเฉลี่ย 20 วัน (MA20)</label>
+    </div>
+    <div class="chartbox"><canvas id="chart"></canvas></div>
+    <p class="small" id="chartHint"></p>
+  </div>
+
+  <div class="card">
+    <h2>เทียบทุกสกุลพร้อมกัน (% เปลี่ยนแปลงจากวันแรก)</h2>
+    <div class="chartbox"><canvas id="cmp"></canvas></div>
+    <p class="small">ทุกเส้นเริ่มที่ 0% เพื่อเทียบกันได้ตรง ๆ เส้นที่อยู่เหนือ 0 = สกุลนั้นแข็งขึ้นเทียบบาท (บาทอ่อนลง) ถ้าถือสกุลนั้นไว้จะได้กำไร</p>
+  </div>
+
+  <div class="card">
+    <h2>สรุปสถิติ — สกุลไหนแกว่งแรง?</h2>
+    <div class="tw"><table id="stats"></table></div>
+    <p class="small"><b>ความผันผวน</b> = ส่วนเบี่ยงเบนมาตรฐานของการเปลี่ยนแปลงรายวัน คิดเป็นรายปี ยิ่งสูงยิ่งเสี่ยง (และยิ่งมีโอกาสกำไร/ขาดทุนมาก) · <b>แกว่งสูงสุด</b> = ระยะห่างจากจุดต่ำสุดถึงสูงสุดในช่วงนี้</p>
+  </div>
+
+  <div class="card">
+    <h2>🧪 จำลองการลงทุน: ถ้าแลกเงินไว้ แล้วขายคืน จะได้เท่าไร?</h2>
+    <div class="form">
+      <label>สกุลเงิน<select id="sCur"></select></label>
+      <label>เงินลงทุน (บาท)<input type="number" id="sAmt" value="100000" min="0" step="1000"></label>
+      <label>วันที่ซื้อ<select id="sBuy"></select></label>
+      <label>วันที่ขาย<select id="sSell"></select></label>
+      <label>ส่วนต่างธนาคาร (spread) %<input type="number" id="sSpread" value="0.5" min="0" step="0.1"></label>
+    </div>
+    <div class="result" id="simOut"></div>
+    <p class="small">อัตรา ECB เป็นอัตรากลาง ธนาคารจริงจะ "ขาย" ให้เราแพงกว่า และ "รับซื้อ" ถูกกว่า ส่วนต่างนี้คือต้นทุนที่ต้องชนะให้ได้ก่อนจะมีกำไร (ปกติ 0.3–2% ขึ้นกับธนาคาร/ช่องทาง เช่น บัญชี FCD หรือแอปแลกเงินมักถูกกว่าเคาน์เตอร์)</p>
+  </div>
+
+  <div class="card">
+    <h2>📚 บทเรียนสั้น ๆ ก่อนลงทุนค่าเงิน</h2>
+    <details open><summary>อ่านตัวเลขยังไง</summary>
+      <p>"USD 33.50" แปลว่า 1 ดอลลาร์ = 33.50 บาท ถ้าตัวเลข <b>สูงขึ้น</b> = ดอลลาร์แข็ง/<b>บาทอ่อน</b> ถ้าเราถือดอลลาร์อยู่จะได้กำไร ถ้าตัวเลข <b>ลดลง</b> = บาทแข็ง ถือดอลลาร์อยู่จะขาดทุน (JPY แสดงเป็นราคาต่อ 100 เยน)</p></details>
+    <details><summary>อะไรทำให้ค่าเงินขึ้นลง</summary>
+      <ul>
+        <li><b>ดอกเบี้ย</b> — ประเทศที่ขึ้นดอกเบี้ย เงินมักไหลเข้า ค่าเงินแข็ง (จับตาการประชุม Fed, ECB, BOJ, BoE, กนง.)</li>
+        <li><b>เงินเฟ้อ & เศรษฐกิจ</b> — ตัวเลข CPI, GDP, การจ้างงาน (Non-farm payrolls ของสหรัฐ)</li>
+        <li><b>ดุลการค้า/ท่องเที่ยว</b> — นักท่องเที่ยวเข้าไทยเยอะ ส่งออกดี บาทมักแข็ง</li>
+        <li><b>ราคาทอง</b> — บาทมักเคลื่อนไหวตามทองค่อนข้างมาก เพราะคนไทยซื้อขายทองเยอะ</li>
+        <li><b>ความเสี่ยงโลก</b> — ช่วงตลาดกลัว เงินมักไหลเข้า USD, JPY (สกุลปลอดภัย)</li>
+        <li><b>นโยบายจีน</b> — CNY ถูกควบคุมโดยธนาคารกลางจีน จึงแกว่งน้อยกว่าสกุลอื่น</li>
+      </ul></details>
+    <details><summary>ช่องทางลงทุนค่าเงินสำหรับคนไทย</summary>
+      <ul>
+        <li><b>บัญชีเงินฝากสกุลต่างประเทศ (FCD)</b> — เปิดที่ธนาคาร ถือเงินจริง ความเสี่ยงต่ำสุด เหมาะเริ่มต้น</li>
+        <li><b>แอป/บัตร multi-currency</b> — แลกเก็บไว้ ใช้เที่ยวได้ ส่วนต่างมักต่ำ</li>
+        <li><b>กองทุนรวม/หุ้นต่างประเทศ</b> — ได้ผลตอบแทนสินทรัพย์ + ผลค่าเงินไปด้วย</li>
+        <li><b>Forex มาร์จิ้น / เลเวอเรจ</b> — ⚠️ เสี่ยงสูงมาก มือใหม่ส่วนใหญ่ขาดทุน และมีโบรกเถื่อนเยอะ ตรวจสอบกับ ก.ล.ต./ธปท. ก่อนเสมอ</li>
+      </ul></details>
+    <details><summary>กฎความปลอดภัย 5 ข้อ</summary>
+      <ol>
+        <li>ใช้เงินเย็นเท่านั้น และไม่ทุ่มหมดในครั้งเดียว — ทยอยแลก (DCA) ช่วยเฉลี่ยราคา</li>
+        <li>คิดค่า spread ทุกครั้ง แกว่ง 1% แต่ spread 1% = เท่าทุน</li>
+        <li>ดูช่วงยาวด้วย 3 เดือนอาจดูแกว่งมาก แต่ลองกดดู 1–3 ปีจะเห็นภาพใหญ่</li>
+        <li>ไม่มีใครทายค่าเงินถูกตลอด แม้แต่นักเศรษฐศาสตร์ ตั้งจุดตัดขาดทุนไว้ล่วงหน้า</li>
+        <li>เหตุผลดีที่สุดในการถือเงินต่างประเทศ คือมีแผนใช้จริง (เรียน/เที่ยว/ซื้อของ) หรือกระจายความเสี่ยง</li>
+      </ol></details>
+    <p class="small">โปรแกรมนี้ใช้เพื่อการเรียนรู้ ไม่ใช่คำแนะนำการลงทุน ผลในอดีตไม่ได้รับประกันอนาคต</p>
+  </div>
+</div>
+
+<script>
+const CURS = [
+  {code:'USD', name:'ดอลลาร์สหรัฐ', flag:'🇺🇸', unit:1,   color:'#2f5bea'},
+  {code:'EUR', name:'ยูโร',         flag:'🇪🇺', unit:1,   color:'#12805c'},
+  {code:'JPY', name:'เยน (ต่อ 100)', flag:'🇯🇵', unit:100, color:'#c4320a'},
+  {code:'GBP', name:'ปอนด์',        flag:'🇬🇧', unit:1,   color:'#8e44ad'},
+  {code:'CNY', name:'หยวน',         flag:'🇨🇳', unit:1,   color:'#d4a017'},
+];
+let months = 3, selected = 'USD', data = null, chart, cmpChart;
+const $ = id => document.getElementById(id);
+const fmt = (n, d=2) => n.toLocaleString('th-TH', {minimumFractionDigits:d, maximumFractionDigits:d});
+const pct = n => (n>0?'+':'') + fmt(n) + '%';
+const cls = n => n>0 ? 'up' : n<0 ? 'down' : '';
+const iso = d => d.toISOString().slice(0,10);
+const thDate = s => new Date(s+'T00:00:00').toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'2-digit'});
+
+async function load(m){
+  const start = new Date(); start.setMonth(start.getMonth()-m);
+  const syms = CURS.map(c=>c.code).join(',');
+  try{
+    const r = await fetch(`https://api.frankfurter.dev/v1/${iso(start)}..?base=THB&symbols=${syms}`);
+    if(!r.ok) throw new Error(r.status);
+    const j = await r.json();
+    const dates = Object.keys(j.rates).sort();
+    const series = {};
+    CURS.forEach(c => series[c.code] = dates.map(d => c.unit / j.rates[d][c.code])); // THB per unit
+    $('banner').style.display='none';
+    return {dates, series, demo:false};
+  }catch(e){
+    console.warn('fetch failed, using demo data', e);
+    $('banner').style.display='block';
+    return demoData(start);
+  }
+}
+
+function demoData(start){
+  const base = {USD:33.5, EUR:38.5, JPY:22.5, GBP:44, CNY:4.7}, vol = {USD:.005,EUR:.005,JPY:.007,GBP:.006,CNY:.003};
+  const dates=[]; for(let d=new Date(start); d<=new Date(); d.setDate(d.getDate()+1)) if(d.getDay()%6) dates.push(iso(d));
+  const series={}; let seed=42; const rnd=()=>((seed=seed*16807%2147483647)/2147483647-.5)*3.4;
+  CURS.forEach(c=>{let v=base[c.code]; series[c.code]=dates.map(()=>v*=1+rnd()*vol[c.code]);});
+  return {dates, series, demo:true};
+}
+
+function stats(arr){
+  const first=arr[0], last=arr.at(-1), hi=Math.max(...arr), lo=Math.min(...arr);
+  const rets=arr.slice(1).map((v,i)=>Math.log(v/arr[i]));
+  const mean=rets.reduce((a,b)=>a+b,0)/rets.length;
+  const sd=Math.sqrt(rets.reduce((a,b)=>a+(b-mean)**2,0)/Math.max(1,rets.length-1));
+  const maxDay=Math.max(...rets.map(Math.abs));
+  return {first,last,hi,lo,chg:(last/first-1)*100,range:(hi/lo-1)*100,vol:sd*Math.sqrt(252)*100,maxDay:(Math.exp(maxDay)-1)*100,pos:(hi===lo?50:(last-lo)/(hi-lo)*100)};
+}
+const ma = (a,n) => a.map((_,i)=> i<n-1 ? null : a.slice(i-n+1,i+1).reduce((x,y)=>x+y,0)/n);
+
+function renderCards(){
+  $('cards').innerHTML = CURS.map(c=>{
+    const s=stats(data.series[c.code]);
+    return `<div class="cur ${c.code===selected?'sel':''}" data-c="${c.code}">
+      <div class="code">${c.flag} ${c.code} <span class="small">${c.name}</span></div>
+      <div class="rate">${fmt(s.last, c.code==='CNY'?3:2)} <span class="small">บาท</span></div>
+      <div class="${cls(s.chg)}">${s.chg>0?'▲':s.chg<0?'▼':'■'} ${pct(s.chg)} <span class="small">ในช่วงนี้</span></div>
+      <div class="small">ต่ำสุด ${fmt(s.lo)} · สูงสุด ${fmt(s.hi)}</div>
+    </div>`;}).join('');
+  document.querySelectorAll('.cur').forEach(el=>el.onclick=()=>{selected=el.dataset.c; renderCards(); renderChart();});
+}
+
+function renderChart(){
+  const c=CURS.find(x=>x.code===selected), arr=data.series[selected], s=stats(arr);
+  $('chartTitle').textContent=`${c.flag} ${c.code}/THB — ${c.name}`;
+  const ds=[{label:`${c.code} (บาท)`,data:arr,borderColor:c.color,backgroundColor:c.color+'22',fill:true,pointRadius:0,borderWidth:2,tension:.15}];
+  if($('showMA').checked) ds.push({label:'MA20',data:ma(arr,20),borderColor:'#888',borderDash:[5,4],pointRadius:0,borderWidth:1.5});
+  chart?.destroy();
+  chart=new Chart($('chart'),{type:'line',data:{labels:data.dates.map(thDate),datasets:ds},
+    options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{tooltip:{callbacks:{label:t=>`${t.dataset.label}: ${fmt(t.parsed.y,3)}`}}},
+      scales:{x:{ticks:{maxTicksLimit:8}},y:{ticks:{callback:v=>fmt(v)}}}}});
+  const last=arr.at(-1), m20=ma(arr,20).at(-1);
+  let hint=`ตอนนี้อยู่ที่ ${Math.round(s.pos)}% ของกรอบ ต่ำสุด–สูงสุด ช่วงนี้ (0% = จุดต่ำสุด, 100% = จุดสูงสุด). `;
+  if(m20) hint += last>m20 ? `ราคาอยู่ <b class="up">เหนือ</b> MA20 = แนวโน้มระยะสั้นกำลังขึ้น (บาทอ่อนเทียบ ${c.code})` : `ราคาอยู่ <b class="down">ใต้</b> MA20 = แนวโน้มระยะสั้นกำลังลง (บาทแข็งเทียบ ${c.code})`;
+  $('chartHint').innerHTML=hint+' — ใช้ดูภาพรวม ไม่ใช่สัญญาณซื้อขายแน่นอน';
+}
+
+function renderCompare(){
+  cmpChart?.destroy();
+  cmpChart=new Chart($('cmp'),{type:'line',data:{labels:data.dates.map(thDate),
+    datasets:CURS.map(c=>{const a=data.series[c.code];return {label:c.code,data:a.map(v=>(v/a[0]-1)*100),borderColor:c.color,pointRadius:0,borderWidth:2};})},
+    options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{tooltip:{callbacks:{label:t=>`${t.dataset.label}: ${pct(t.parsed.y)}`}}},
+      scales:{x:{ticks:{maxTicksLimit:8}},y:{ticks:{callback:v=>v+'%'}}}}});
+}
+
+function renderStats(){
+  const rows=CURS.map(c=>({c,s:stats(data.series[c.code])}));
+  const maxVol=Math.max(...rows.map(r=>r.s.vol));
+  $('stats').innerHTML=`<tr><th>สกุล</th><th>เปลี่ยนแปลง</th><th>แกว่งสูงสุด</th><th>วันที่แรงสุด</th><th>ความผันผวน/ปี</th></tr>`+
+    rows.map(({c,s})=>`<tr><td>${c.flag} ${c.code}</td><td class="${cls(s.chg)}">${pct(s.chg)}</td><td>${fmt(s.range)}%</td><td>±${fmt(s.maxDay)}%</td><td>${fmt(s.vol)}% ${s.vol===maxVol?'🔥':''}</td></tr>`).join('');
+}
+
+function setupSim(){
+  $('sCur').innerHTML=CURS.map(c=>`<option value="${c.code}" ${c.code===selected?'selected':''}>${c.flag} ${c.code}</option>`).join('');
+  const opts=data.dates.map((d,i)=>`<option value="${i}">${thDate(d)}</option>`).join('');
+  $('sBuy').innerHTML=opts; $('sSell').innerHTML=opts;
+  $('sBuy').value=0; $('sSell').value=data.dates.length-1;
+  runSim();
+}
+function runSim(){
+  const code=$('sCur').value, c=CURS.find(x=>x.code===code), a=data.series[code];
+  const amt=+$('sAmt').value||0, sp=(+$('sSpread').value||0)/100/2;
+  const bi=+$('sBuy').value, si=+$('sSell').value;
+  if(si<=bi){$('simOut').innerHTML='เลือกวันขายให้อยู่หลังวันซื้อ';return;}
+  const buyRate=a[bi]*(1+sp), sellRate=a[si]*(1-sp);
+  const units=amt/buyRate*c.unit, back=units/c.unit*sellRate, pl=back-amt;
+  const noFee=amt*(a[si]/a[bi]-1);
+  // best possible in window
+  let best=0,bb=0,bs=0,minI=bi; for(let i=bi;i<=si;i++){if(a[i]<a[minI])minI=i; const g=a[i]/a[minI]-1; if(g>best){best=g;bb=minI;bs=i;}}
+  $('simOut').innerHTML=`ซื้อ ${fmt(units, 2)} ${code} ที่ ${fmt(buyRate,3)} บาท/${c.unit>1?c.unit+' ':''}${code} → ขายที่ ${fmt(sellRate,3)}<br>
+    ได้คืน <b>${fmt(back)} บาท</b> · กำไร/ขาดทุน <b class="${cls(pl)}">${fmt(pl)} บาท (${pct(pl/amt*100)})</b><br>
+    <span class="small">ถ้าไม่มี spread จะได้ ${fmt(noFee)} บาท — ค่า spread กินไป ${fmt(noFee-pl)} บาท<br>
+    จังหวะดีที่สุดในช่วงนี้ (มองย้อนหลัง): ซื้อ ${thDate(data.dates[bb])} ขาย ${thDate(data.dates[bs])} ได้ ${pct(best*100)} ก่อนหัก spread — ในชีวิตจริงไม่มีใครรู้จุดนี้ล่วงหน้า</span>`;
+}
+['sCur','sAmt','sBuy','sSell','sSpread'].forEach(id=>$(id).addEventListener('input',runSim));
+$('showMA').onchange=renderChart;
+
+async function refresh(){
+  $('cards').innerHTML='<p class="small">กำลังโหลดข้อมูล…</p>';
+  data=await load(months);
+  $('asof').textContent=(data.demo?'ข้อมูลจำลอง':'ข้อมูลล่าสุด')+' '+thDate(data.dates.at(-1));
+  renderCards(); renderChart(); renderCompare(); renderStats(); setupSim();
+}
+document.querySelectorAll('.seg').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.seg').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+  months=+b.dataset.m; refresh();
+});
+refresh();
+</script>
+</body>
+</html>
